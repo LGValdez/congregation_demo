@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="holy_gift_tree_view" model="ir.ui.view">
+            <field name="name">holy.gift.tree</field>
+            <field name="model">holy.gift</field>
+            <field name="arch" type="xml">
+                <tree string="Holy Gifts">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="holy_gift_form_view" model="ir.ui.view">
+            <field name="name">holy.gift.form</field>
+            <field name="model">holy.gift</field>
+            <field name="arch" type="xml">
+                <form string="Holy Gift">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="holy_gift_action" model="ir.actions.act_window">
+            <field name="name">Holy Gifts</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">holy.gift</field>
+            <field name="view_ids" eval="[(5, 0, 0),
+                (0, 0, {'view_mode': 'tree', 'view_id': ref('congregation_registry.holy_gift_tree_view')}),
+                (0, 0, {'view_mode': 'form', 'view_id': ref('congregation_registry.holy_gift_form_view')})]"/>
+        </record>
+
+    </data>
+</odoo>

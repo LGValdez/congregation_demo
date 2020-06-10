@@ -8,8 +8,8 @@
             <field name="arch" type="xml">
                 <tree string="School Programs">
                     <field name="name"/>
-                    <field name="date_start"/>
-                    <field name="date_end"/>
+                    <field name="date_start" required="1"/>
+                    <field name="date_end" required="1"/>
                     <field name="city"/>
                     <field name="country"/>
                 </tree>

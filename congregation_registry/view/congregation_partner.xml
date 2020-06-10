@@ -26,7 +26,10 @@
                             <group>
                                 <field name="name"/>
                                 <field name="email"/>
-                                <field name="congregation_id"/>
+                                <field name="congregation_id" 
+                                       readonly="1" 
+                                       force_save="1"
+                                       options="{'no_create_edit': True, 'no_open': True}"/>
                             </group>
                             <group>
                                 <field name="address"/>
@@ -36,10 +39,14 @@
                         </group>
                         <group>
                             <group>
-                                <field name="ministry_ids" widget="many2many_tags"/>
+                                <field name="ministry_ids" 
+                                       widget="many2many_tags" 
+                                       options="{'no_create_edit': True, 'no_open': True}"/>
                             </group>
                             <group>
-                                <field name="gift_ids" widget="many2many_tags"/>
+                                <field name="gift_ids" 
+                                       widget="many2many_tags"
+                                       options="{'no_create_edit': True, 'no_open': True}"/>
                             </group>
                         </group>
                         <notebook>
@@ -47,7 +54,10 @@
                                   string="Congregations">
                                 <field name="congregation_register_lines" mode="tree">
                                     <tree editable="bottom">
-                                        <field name="congregation_id" required="1"/>
+                                        <field name="congregation_id" 
+                                               required="1"
+                                               domain="[('congregation_lines', '=', False)]"
+                                               options="{'no_create_edit': True, 'no_open': True}"/>
                                         <field name="position"/>
                                         <field name="date_start" required="1"/>
                                         <field name="date_end"/>
@@ -59,7 +69,9 @@
                                   string="Ministerial Projects">
                                 <field name="project_register_lines" mode="tree">
                                     <tree editable="bottom">
-                                        <field name="project_id" required="1"/>
+                                        <field name="project_id" 
+                                               required="1"
+                                               options="{'no_create_edit': True, 'no_open': True}"/>
                                         <field name="position"/>
                                         <field name="date_start" required="1"/>
                                         <field name="date_end"/>
@@ -69,13 +81,20 @@
 
                             <page id="school_register_lines_page"
                                   string="School Programs">
-                                <field name="school_register_lines" mode="tree">
+                                <field name="school_register_lines" mode="tree" context="{'default_school_date': True}">
                                     <tree editable="bottom">
-                                        <field name="school_id" required="1"/>
+                                        <field name="school_id" 
+                                               required="1"
+                                               options="{'no_create_edit': True, 'no_open': True}"/>
                                         <field name="position"/>
                                         <field name="school_date"/>
-                                        <field name="date_start" required="1"/>
-                                        <field name="date_end"/>
+                                        <field name="date_start" 
+                                               required="1"
+                                               force_save="1"
+                                               attrs="{'readonly': [('school_date', '=', True)]}"/>
+                                        <field name="date_end"
+                                               force_save="1"
+                                               attrs="{'readonly': [('school_date', '=', True)]}"/>
                                     </tree>
                                 </field>
                             </page>

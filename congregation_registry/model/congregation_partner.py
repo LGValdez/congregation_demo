@@ -36,3 +36,13 @@ class CongregationPartner(models.Model):
                                             comodel_name='participation.registry',
                                             inverse_name='partner_id',
                                             domain=[('school_id', '!=', False)])
+
+    @api.onchange('congregation_register_lines')
+    def _get_most_recent_congregation(self):
+        for partner in self:
+            congregation_registers = sorted(partner.congregation_register_lines, 
+                                            key=lambda r: r.date_start)
+            if congregation_registers:
+                partner.congregation_id = congregation_registers[-1].congregation_id.id
+            else:
+                partner.congregation_id = False

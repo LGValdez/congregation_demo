@@ -8,4 +8,4 @@ class HolyGift(models.Model):
     _description = "Holy Gift Ministry"
     _rec_name = "name"
 
-    name = fields.Char(string='Name', required=True)
+    name = fields.Char(string='Name', required=True, translate=True)

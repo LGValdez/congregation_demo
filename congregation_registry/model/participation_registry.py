@@ -17,4 +17,14 @@ class ParticipationRegistry(models.Model):
     project_id = fields.Many2one('ministerial.project', string='Project')
 
     school_id = fields.Many2one('school.program', string='School')
-    school_date = fields.Boolean(string='Use School Dates', default=True)
+    school_date = fields.Boolean(string='Use School Dates')
+
+    @api.onchange('school_date', 'school_id')
+    def _onchange_school_date(self):
+        for registry in self:
+            registry.date_start = False
+            registry.date_end = False
+            if registry.school_date and registry.school_id:
+                registry.date_start = registry.school_id.date_start
+                registry.date_end = registry.school_id.date_end
+                

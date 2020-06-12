@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
 
+from base64 import b64encode
+
 from odoo import api, fields, models, _
+from odoo.modules.module import get_module_resource
 
 
 class CongregationPartner(models.Model):
@@ -8,7 +11,15 @@ class CongregationPartner(models.Model):
     _description = "Congregation Partner"
     _rec_name = "name"
 
+    @api.model
+    def _default_image(self):
+        image_path = get_module_resource('congregation_registry', 
+                                         'static/src/img', 
+                                         'default_avatar.png')
+        return b64encode(open(image_path, 'rb').read())
+
     name = fields.Char(string='Name', required=True)
+    avatar = fields.Image(default=_default_image, max_width=128, max_height=128, store=True)
     email = fields.Char(string='Mail')
     address = fields.Char(string='Address')
     city = fields.Char(string='City')
@@ -46,3 +57,19 @@ class CongregationPartner(models.Model):
                 partner.congregation_id = congregation_registers[-1].congregation_id.id
             else:
                 partner.congregation_id = False
+
+    def button_ongoing_schools(self):
+        return {
+            'name': _('Ongoing Schools'),
+            'view_mode': 'kanban',
+            'res_model': 'school.program',
+            'view_id': False,
+            'type': 'ir.actions.act_window',
+            'domain': [('id', 'in', [r.school_id.id for r in self.school_register_lines if r.school_id.ongoing])],
+            'context': {
+                'delete': False, 
+                'create': False, 
+                'edit': False, 
+                'import': False, 
+                'congregation_partner': self.id},
+        }

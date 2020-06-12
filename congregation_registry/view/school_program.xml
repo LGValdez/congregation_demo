@@ -22,12 +22,18 @@
             <field name="arch" type="xml">
                 <form string="School Program">
                     <sheet>
+                        <div class="oe_button_box" name="button_box"/>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" default_focus="1" placeholder="Name"/>
+                            </h1>
+                        </div>
                         <group>
                             <group>
-                                <field name="name"/>
                                 <field name="city"/>
                                 <field name="country"/>
-                                <field name="webpage"/>
+                                <field name="webpage" widget="url"/>
+                                <field name="meeting" widget="url"/>
                             </group>
                             <group>
                                 <field name="date_start"/>
@@ -35,9 +41,74 @@
                                 <field name="ongoing"/>
                             </group>
                         </group>
+                        <notebook>
+                            <page string="Sessions"
+                                  id="school_sessions_page">
+                                <field name="school_lines" mode="tree">
+                                    <tree editable="top">
+                                        <field name="sequence" widget="handle"/>
+                                        <field name="school_id" invisible="1"/>
+                                        <field name="name"/>
+                                        <field name="video"/>
+                                        <field name="notes"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
                         <field name="summary"/>
                     </sheet>
                 </form>
+            </field>
+        </record>
+        
+        <record id="school_program_ongoing_kanban_view" model="ir.ui.view" >
+            <field name="name">school.program.ongoing.kanban.view</field>
+            <field name="model">school.program</field>
+            <field name="arch" type="xml">
+                <kanban class="o_res_partner_kanban">
+                    <field name="name"/>
+                    <field name="webpage"/>
+                    <field name="meeting"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div class="oe_kanban_global_click o_kanban_record_has_image_fill o_res_partner_kanban">
+                                <div class="oe_kanban_details">
+                                    <h4 class="text-center"><field name="name"/></h4>
+                                    <div class="text-center">
+                                        <div>
+                                            <button name="open_webpage" 
+                                                    class="btn btn-secondary btn-sm" 
+                                                    type="object" 
+                                                    style="width:100%%">Webpage</button>
+                                        </div>
+                                        <div>
+                                            <button name="open_meeting" 
+                                                    class="btn btn-primary btn-sm" 
+                                                    type="object" 
+                                                    style="width:100%%">External Meetings</button>
+                                        </div>
+                                        <div>
+                                            <button name="open_all_sessions" 
+                                                    class="btn btn-secondary btn-sm" 
+                                                    type="object" 
+                                                    style="width:100%%">All Sessions</button>
+                                        </div>
+                                        <div>
+                                            <button name="open_latest_session_video" 
+                                                    class="btn btn-primary btn-sm" 
+                                                    type="object" 
+                                                    style="width:49%%">Latest Video</button>
+                                            <button name="open_latest_session_notes" 
+                                                    class="btn btn-primary btn-sm" 
+                                                    type="object" 
+                                                    style="width:49%%">Latest Notes</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
             </field>
         </record>
 

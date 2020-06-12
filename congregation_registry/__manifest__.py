@@ -19,6 +19,7 @@ Congregation Registry
         'view/res_congregation.xml',
         'view/school_program.xml',
         'view/congregation_partner.xml',
+        'view/partner_program_line.xml',
         'view/congregation_registry_menus.xml',
     ],
     'installable'  : True,

@@ -11,6 +11,7 @@ class ParticipationRegistry(models.Model):
     position = fields.Char(string='Position')
     date_start = fields.Date(string='Start Date')
     date_end = fields.Date(string='End Date')
+    sequence = fields.Integer(index=True, default=1)
 
     congregation_id = fields.Many2one('res.congregation', string='Congregation')
 
